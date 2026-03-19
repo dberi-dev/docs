@@ -370,4 +370,3 @@ See [Webhooks API](/api/webhooks) for details.
 
 - [Create Payments ](/api/payments)
 - [View Settlement Info ](/concepts/settlement)
-- [Verification Guide ](/guides/verification)
