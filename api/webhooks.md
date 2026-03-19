@@ -9,6 +9,7 @@ Full webhook functionality is currently in development. You can poll payment sta
 ## Overview
 
 Webhooks allow Dberi to push real-time notifications to your server when important events occur, such as:
+
 - Payment completed
 - Payment failed
 - Refund processed
@@ -20,13 +21,13 @@ Instead of polling the API constantly, webhooks push data to you automatically.
 
 ```
 1. Event occurs (customer pays)
-        
+
 2. Dberi sends POST request to your webhook URL
-        
+
 3. Your server receives and processes the webhook
-        
+
 4. Your server responds with 200 OK
-        
+
 5. Dberi marks webhook as delivered
 ```
 
@@ -54,49 +55,49 @@ Instead of polling the API constantly, webhooks push data to you automatically.
 
 ### Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `id` | string | Unique event identifier |
-| `type` | string | Event type (see event types below) |
-| `created` | string | ISO 8601 timestamp |
-| `data` | object | Event-specific data payload |
+| Attribute | Type   | Description                        |
+| --------- | ------ | ---------------------------------- |
+| `id`      | string | Unique event identifier            |
+| `type`    | string | Event type (see event types below) |
+| `created` | string | ISO 8601 timestamp                 |
+| `data`    | object | Event-specific data payload        |
 
 ## Event Types
 
 ### Payment Events
 
-| Event Type | Description |
-|------------|-------------|
-| `payment.created` | New payment session created |
+| Event Type          | Description                    |
+| ------------------- | ------------------------------ |
+| `payment.created`   | New payment session created    |
 | `payment.completed` | Payment successfully completed |
-| `payment.failed` | Payment failed |
-| `payment.expired` | Payment session expired (24h) |
-| `payment.canceled` | Payment canceled by customer |
+| `payment.failed`    | Payment failed                 |
+| `payment.expired`   | Payment session expired (24h)  |
+| `payment.canceled`  | Payment canceled by customer   |
 
 ### Refund Events
 
-| Event Type | Description |
-|------------|-------------|
-| `refund.created` | Refund initiated |
+| Event Type         | Description                   |
+| ------------------ | ----------------------------- |
+| `refund.created`   | Refund initiated              |
 | `refund.completed` | Refund successfully processed |
-| `refund.failed` | Refund failed |
+| `refund.failed`    | Refund failed                 |
 
 ### Payout Events
 
-| Event Type | Description |
-|------------|-------------|
-| `payout.created` | Payout scheduled |
-| `payout.paid` | Payout successfully sent to bank |
-| `payout.failed` | Payout failed |
+| Event Type       | Description                      |
+| ---------------- | -------------------------------- |
+| `payout.created` | Payout scheduled                 |
+| `payout.paid`    | Payout successfully sent to bank |
+| `payout.failed`  | Payout failed                    |
 
 ### Payment Link Events
 
-| Event Type | Description |
-|------------|-------------|
-| `payment_link.created` | New payment link created |
-| `payment_link.payment.completed` | Payment made via link |
-| `payment_link.deactivated` | Payment link deactivated |
-| `payment_link.expired` | Payment link expired |
+| Event Type                       | Description              |
+| -------------------------------- | ------------------------ |
+| `payment_link.created`           | New payment link created |
+| `payment_link.payment.completed` | Payment made via link    |
+| `payment_link.deactivated`       | Payment link deactivated |
+| `payment_link.expired`           | Payment link expired     |
 
 ## Setting Up Webhooks
 
@@ -106,15 +107,19 @@ Create an endpoint on your server to receive webhooks:
 
 ```javascript
 // Express.js example
-app.post('/webhooks/dberi', express.raw({type: 'application/json'}), (req, res) => {
-  const event = req.body
+app.post(
+  "/webhooks/dberi",
+  express.raw({ type: "application/json" }),
+  (req, res) => {
+    const event = req.body;
 
-  // Process webhook
-  handleWebhook(event)
+    // Process webhook
+    handleWebhook(event);
 
-  // Respond with 200
-  res.status(200).send('OK')
-})
+    // Respond with 200
+    res.status(200).send("OK");
+  },
+);
 ```
 
 ### 2. Register Webhook URL
@@ -134,31 +139,31 @@ POST /v1/webhooks
 Verify that webhooks come from Dberi:
 
 ```javascript
-const crypto = require('crypto')
+const crypto = require("crypto");
 
 function verifyWebhookSignature(payload, signature, secret) {
   const expectedSignature = crypto
-    .createHmac('sha256', secret)
+    .createHmac("sha256", secret)
     .update(JSON.stringify(payload))
-    .digest('hex')
+    .digest("hex");
 
-  return signature === expectedSignature
+  return signature === expectedSignature;
 }
 
-app.post('/webhooks/dberi', (req, res) => {
-  const signature = req.headers['x-dberi-signature']
+app.post("/webhooks/dberi", (req, res) => {
+  const signature = req.headers["x-dberi-signature"];
   const isValid = verifyWebhookSignature(
     req.body,
     signature,
-    process.env.WEBHOOK_SECRET
-  )
+    process.env.WEBHOOK_SECRET,
+  );
 
   if (!isValid) {
-    return res.status(401).send('Invalid signature')
+    return res.status(401).send("Invalid signature");
   }
 
   // Process webhook...
-})
+});
 ```
 
 ## Handling Webhooks
@@ -170,13 +175,13 @@ app.post('/webhooks/dberi', (req, res) => {
 Always respond with `200 OK` immediately, then process asynchronously:
 
 ```javascript
-app.post('/webhooks/dberi', async (req, res) => {
+app.post("/webhooks/dberi", async (req, res) => {
   // Immediately respond
-  res.status(200).send('OK')
+  res.status(200).send("OK");
 
   // Process asynchronously
-  processWebhookAsync(req.body)
-})
+  processWebhookAsync(req.body);
+});
 ```
 
 #### 2. Handle Idempotency
@@ -186,17 +191,17 @@ Webhooks may be sent multiple times. Store event IDs to prevent duplicate proces
 ```javascript
 async function handleWebhook(event) {
   // Check if already processed
-  const exists = await db.webhookEvents.findOne({ id: event.id })
+  const exists = await db.webhookEvents.findOne({ id: event.id });
   if (exists) {
-    console.log('Webhook already processed')
-    return
+    console.log("Webhook already processed");
+    return;
   }
 
   // Process webhook
-  await processEvent(event)
+  await processEvent(event);
 
   // Mark as processed
-  await db.webhookEvents.create({ id: event.id, processed: true })
+  await db.webhookEvents.create({ id: event.id, processed: true });
 }
 ```
 
@@ -205,20 +210,20 @@ async function handleWebhook(event) {
 ```javascript
 async function processEvent(event) {
   switch (event.type) {
-    case 'payment.completed':
-      await handlePaymentCompleted(event.data)
-      break
+    case "payment.completed":
+      await handlePaymentCompleted(event.data);
+      break;
 
-    case 'payment.failed':
-      await handlePaymentFailed(event.data)
-      break
+    case "payment.failed":
+      await handlePaymentFailed(event.data);
+      break;
 
-    case 'refund.completed':
-      await handleRefundCompleted(event.data)
-      break
+    case "refund.completed":
+      await handleRefundCompleted(event.data);
+      break;
 
     default:
-      console.log(`Unhandled event type: ${event.type}`)
+      console.log(`Unhandled event type: ${event.type}`);
   }
 }
 ```
@@ -266,27 +271,24 @@ POST https://yourstore.com/webhooks/dberi
 
 ```javascript
 async function handlePaymentCompleted(data) {
-  const { payment_id, metadata } = data
-  const { order_id } = metadata
+  const { payment_id, metadata } = data;
+  const { order_id } = metadata;
 
   // 1. Update order status
-  await db.orders.update(
-    { id: order_id },
-    { status: 'paid', payment_id }
-  )
+  await db.orders.update({ id: order_id }, { status: "paid", payment_id });
 
   // 2. Send confirmation email
   await sendEmail({
     to: customer.email,
-    subject: 'Payment Confirmed',
-    template: 'payment_confirmed',
-    data: { order_id, amount: data.amount }
-  })
+    subject: "Payment Confirmed",
+    template: "payment_confirmed",
+    data: { order_id, amount: data.amount },
+  });
 
   // 3. Start fulfillment
-  await fulfillmentService.process(order_id)
+  await fulfillmentService.process(order_id);
 
-  console.log(`Order ${order_id} paid successfully`)
+  console.log(`Order ${order_id} paid successfully`);
 }
 ```
 
@@ -317,27 +319,27 @@ POST https://yourstore.com/webhooks/dberi
 
 ```javascript
 async function handlePaymentFailed(data) {
-  const { payment_id, error_code, metadata } = data
-  const { order_id } = metadata
+  const { payment_id, error_code, metadata } = data;
+  const { order_id } = metadata;
 
   // 1. Update order status
   await db.orders.update(
     { id: order_id },
-    { status: 'payment_failed', error: error_code }
-  )
+    { status: "payment_failed", error: error_code },
+  );
 
   // 2. Notify customer
   await sendEmail({
     to: customer.email,
-    subject: 'Payment Failed',
-    template: 'payment_failed',
-    data: { order_id, error_code }
-  })
+    subject: "Payment Failed",
+    template: "payment_failed",
+    data: { order_id, error_code },
+  });
 
   // 3. Release inventory hold
-  await inventory.release(order_id)
+  await inventory.release(order_id);
 
-  console.log(`Payment failed for order ${order_id}: ${error_code}`)
+  console.log(`Payment failed for order ${order_id}: ${error_code}`);
 }
 ```
 
@@ -414,6 +416,7 @@ Delivered: 2026-03-19 10:05:31
 ```
 
 Failed deliveries show:
+
 - HTTP status code
 - Error message
 - Retry schedule
@@ -425,18 +428,19 @@ Failed deliveries show:
 **Always** verify webhook signatures:
 
 ```javascript
-const signature = req.headers['x-dberi-signature']
-const timestamp = req.headers['x-dberi-timestamp']
+const signature = req.headers["x-dberi-signature"];
+const timestamp = req.headers["x-dberi-timestamp"];
 
 // Prevent replay attacks
-if (Date.now() - timestamp > 300000) { // 5 minutes
-  return res.status(400).send('Webhook too old')
+if (Date.now() - timestamp > 300000) {
+  // 5 minutes
+  return res.status(400).send("Webhook too old");
 }
 
 // Verify signature
-const isValid = verifySignature(req.body, signature, secret)
+const isValid = verifySignature(req.body, signature, secret);
 if (!isValid) {
-  return res.status(401).send('Invalid signature')
+  return res.status(401).send("Invalid signature");
 }
 ```
 
