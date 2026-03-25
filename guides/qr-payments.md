@@ -4,7 +4,9 @@ Accept in-person payments with QR codes for physical stores, markets, and events
 
 ## Overview
 
-QR code payments allow customers to pay by scanning a code with their mobile phone. Perfect for:
+QR code payments allow customers to pay by scanning a code with their mobile phone. **Dberi automatically generates QR codes for you** - just create a payment and display the `qr_payload` image.
+
+Perfect for:
 
 - **Physical Stores** - Display QR codes at checkout
 - **Restaurants** - Table-side QR codes for bills
@@ -40,23 +42,28 @@ curl -X POST https://api.dberi.com/v1/payments \
 
 ### 2. Display QR Code
 
-Print or display the QR code:
+The API automatically generates a QR code for you. Just use the `qr_payload` from the response:
 
 ```html
-<!-- Generate QR code image -->
+<!-- Display the auto-generated QR code -->
 <img
-  src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=dberi://pay/payment-static-abc123"
+  src="{{ qr_payload }}"
   alt="Scan to pay"
+  width="300"
 />
 ```
 
+The `qr_payload` is a ready-to-use base64 PNG image (data URL) - no external service needed!
+
 ### 3. Customer Scans & Pays
 
-1. Customer opens Dberi mobile app
-2. Scans QR code
-3. Enters payment amount
-4. Confirms payment
+1. Customer opens their mobile camera or Dberi app
+2. Scans QR code (redirects to checkout page)
+3. Reviews payment details
+4. Confirms payment with verification (PIN/Face ID if required)
 5. Payment complete!
+
+**Note:** The QR code contains a link to your checkout page: `{BASE_URL}/checkout/{payment_id}`
 
 ## Payment Modes
 
@@ -343,20 +350,23 @@ class MobileVendor {
 
 ## Displaying QR Codes
 
-### Generate QR Code Image
+### Using the Auto-Generated QR Code
 
-Multiple options for displaying QR codes:
+Dberi automatically generates QR codes for every payment. The `qr_payload` field contains a ready-to-use base64 PNG image:
 
 ```javascript
-// Option 1: QR Server API
-const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrPayload)}`
+// Create payment
+const payment = await createPayment({
+  payment_mode: 'STATIC_PAY',
+  description: 'Checkout Counter 1'
+})
 
-// Option 2: goQR.me
-const qrUrl = `https://api.qr.io/v1/create?data=${encodeURIComponent(qrPayload)}`
+// QR code is ready to use immediately
+const qrImageSrc = payment.qr_payload
+// Example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
 
-// Option 3: Generate locally with qrcode package
-const QRCode = require('qrcode')
-const qrDataURL = await QRCode.toDataURL(qrPayload)
+// Display in HTML
+document.getElementById('qr-image').src = qrImageSrc
 ```
 
 ### Print QR Code
@@ -378,7 +388,8 @@ const qrDataURL = await QRCode.toDataURL(qrPayload)
 <body>
   <div class="qr-container">
     <h2>Scan to Pay</h2>
-    <img src="${qrCodeUrl}" alt="QR Code" width="300" />
+    <!-- Use the qr_payload from the API response -->
+    <img src="{{ payment.qr_payload }}" alt="QR Code" width="300" />
     <p>Island Coffee Shop</p>
     <p>Checkout Counter 1</p>
     <button class="no-print" onclick="window.print()">Print QR Code</button>
@@ -391,9 +402,10 @@ const qrDataURL = await QRCode.toDataURL(qrPayload)
 
 ```javascript
 // Show QR on POS terminal screen
-function displayQR(qrPayload) {
+function displayQR(payment, amount) {
   const qrImage = document.getElementById('qr-display')
-  qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(qrPayload)}`
+  // Use the auto-generated QR code from the API
+  qrImage.src = payment.qr_payload
 
   document.getElementById('amount-display').textContent = formatCurrency(amount)
   document.getElementById('qr-container').style.display = 'block'
