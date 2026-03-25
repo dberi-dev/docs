@@ -26,11 +26,7 @@ The API returns a checkout URL where your customer completes payment securely.
 
 ## What You Can Build
 
-- **E-commerce Platforms** - Accept payments for online stores
-- **Mobile Applications** - Process in-app payments
-- **Marketplaces** - Handle payments between buyers and sellers
-- **Subscription Services** - Manage recurring billing
-- **QR Code Payments** - Generate payment QR codes for in-person transactions
+<FeatureGrid />
 
 ## Getting Started
 

@@ -4,16 +4,18 @@
  */
 
 /**
- * Custom background colors - Better blacks
+ * Custom background colors - Better blacks for dark mode, white for light mode
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-c-bg: #0a0a0a;
-  --vp-c-bg-soft: #141414;
-  --vp-c-bg-mute: #1a1a1a;
+  /* Light mode - use default VitePress light theme colors */
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-soft: #f6f6f7;
+  --vp-c-bg-mute: #f1f1f3;
 }
 
 .dark {
+  /* Dark mode - better blacks */
   --vp-c-bg: #0a0a0a;
   --vp-c-bg-soft: #141414;
   --vp-c-bg-mute: #1a1a1a;
