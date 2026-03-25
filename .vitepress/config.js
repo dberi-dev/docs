@@ -45,6 +45,7 @@ export default defineConfig({
         items: [
           { text: 'Overview', link: '/api/overview' },
           { text: 'Merchants', link: '/api/merchants' },
+          { text: 'Products', link: '/api/products' },
           { text: 'Payments', link: '/api/payments' },
           { text: 'Payment Links', link: '/api/payment-links' },
           { text: 'Webhooks', link: '/api/webhooks' }
