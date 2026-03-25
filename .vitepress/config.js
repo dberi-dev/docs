@@ -52,10 +52,17 @@ export default defineConfig({
         ]
       },
       {
-        text: 'Integration Guides',
+        text: 'Merchant Guides',
+        items: [
+          { text: 'Getting Started', link: '/guides/getting-started' },
+          { text: 'Managing Products', link: '/guides/managing-products' },
+          { text: 'Payment Links', link: '/guides/payment-links' }
+        ]
+      },
+      {
+        text: 'Developer Integration',
         items: [
           { text: 'Accept Payments', link: '/guides/accept-payments' },
-          { text: 'Payment Links', link: '/guides/payment-links' },
           { text: 'QR Code Payments', link: '/guides/qr-payments' },
           { text: 'Webhook Integration', link: '/guides/webhooks' },
           { text: 'Error Handling', link: '/guides/errors' }

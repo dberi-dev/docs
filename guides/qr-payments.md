@@ -1,18 +1,21 @@
 # QR Code Payments
 
-Accept in-person payments with QR codes for physical stores, markets, and events.
+::: warning Developer Integration
+This guide is for **developers building custom payment integrations**.
+
+**Most merchants** should use the Dberi POS system which handles QR codes automatically. Contact sales@dberi.com for hardware.
+:::
 
 ## Overview
 
-QR code payments allow customers to pay by scanning a code with their mobile phone. **Dberi automatically generates QR codes for you** - just create a payment and display the `qr_payload` image.
+This guide shows how to programmatically generate and manage QR code payments via the Dberi API. **Dberi automatically generates QR codes for you** when you create a payment - you just need to display the `qr_payload` image.
 
-Perfect for:
+**Use cases for API integration:**
 
-- **Physical Stores** - Display QR codes at checkout
-- **Restaurants** - Table-side QR codes for bills
-- **Markets** - Vendor booth payments
-- **Events** - Ticket gates and concessions
-- **Service Providers** - Mobile payments on-site
+- **Custom POS Systems** - Build your own point-of-sale
+- **Third-Party Integrations** - Add Dberi to existing software
+- **Web Applications** - Generate QR codes for online checkouts
+- **Mobile Apps** - In-app payment QR generation
 
 ## Quick Start
 
