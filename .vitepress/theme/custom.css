@@ -4,6 +4,22 @@
  */
 
 /**
+ * Custom background colors - Better blacks
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-c-bg: #0a0a0a;
+  --vp-c-bg-soft: #141414;
+  --vp-c-bg-mute: #1a1a1a;
+}
+
+.dark {
+  --vp-c-bg: #0a0a0a;
+  --vp-c-bg-soft: #141414;
+  --vp-c-bg-mute: #1a1a1a;
+}
+
+/**
  * Colors
  *
  * Each colors have exact same color scale system with 3 levels of solid
