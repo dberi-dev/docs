@@ -4,11 +4,26 @@ export default defineConfig({
   title: 'Dberi',
   description: 'Bahamian Payment Platform - Make money move as fast as ideas',
 
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.ico' }]
+  ],
+
   themeConfig: {
     logo: '/logo.svg',
+    siteTitle: 'Dberi Docs',
 
     search: {
       provider: 'local'
+    },
+
+    outline: {
+      level: [2, 3],
+      label: 'On this page'
+    },
+
+    editLink: {
+      pattern: 'https://github.com/dberi-dev/docs/edit/main/:path',
+      text: 'Edit this page on GitHub'
     },
 
     nav: [
@@ -23,15 +38,6 @@ export default defineConfig({
           { text: 'Introduction', link: '/' },
           { text: 'Quickstart', link: '/quickstart' },
           { text: 'Authentication', link: '/authentication' }
-        ]
-      },
-      {
-        text: 'Core Concepts',
-        items: [
-          { text: 'How It Works', link: '/concepts/how-it-works' },
-          { text: 'Payment Modes', link: '/concepts/payment-modes' },
-          { text: 'Payment Flow', link: '/concepts/payment-flow' },
-          { text: 'Settlement', link: '/concepts/settlement' }
         ]
       },
       {
@@ -57,7 +63,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/yourusername/dberi' }
+      { icon: 'github', link: 'https://github.com/dberi-dev/docs' }
     ],
 
     footer: {
