@@ -76,8 +76,6 @@ Create and manage customer payments.
 | `INVOICE_PAY` | Invoiced payment with due date |
 | `REFERENCE_PAY` | Payment with custom reference |
 
-See [Payment Modes](/concepts/payment-modes) for detailed usage.
-
 ## Create a Payment
 
 Creates a new payment session.
@@ -431,5 +429,4 @@ See [Webhooks API](/api/webhooks) for details.
 ## Next Steps
 
 - [Accept Payments Guide ](/guides/accept-payments)
-- [Payment Flow ](/concepts/payment-flow)
 - [Webhook Integration ](/guides/webhooks)

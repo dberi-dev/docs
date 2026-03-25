@@ -135,8 +135,6 @@ Choose the integration style that fits your use case:
 | **INVOICE_PAY** | B2B invoicing with due dates |
 | **REFERENCE_PAY** | Payments with custom tracking codes |
 
-See [Payment Modes](/concepts/payment-modes) for detailed usage.
-
 ## Verification & Security
 
 Payments automatically require verification based on amount:

@@ -369,4 +369,3 @@ See [Webhooks API](/api/webhooks) for details.
 ## Next Steps
 
 - [Create Payments ](/api/payments)
-- [View Settlement Info ](/concepts/settlement)
