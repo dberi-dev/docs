@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: 'Dberi',
-  description: 'Bahamian Payment Platform - Make money move as fast as ideas',
+  description: 'Caribbean Payment Platform - Make money move as fast as ideas',
 
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }]
@@ -33,11 +33,21 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Get Started',
+        text: 'Documentation',
         items: [
           { text: 'Introduction', link: '/' },
           { text: 'Quickstart', link: '/quickstart' },
           { text: 'Authentication', link: '/authentication' }
+        ]
+      },
+      {
+        text: 'Guides',
+        items: [
+          { text: 'Accept Payments', link: '/guides/accept-payments' },
+          { text: 'Payment Links', link: '/guides/payment-links' },
+          { text: 'QR Code Payments', link: '/guides/qr-payments' },
+          { text: 'Webhooks', link: '/guides/webhooks' },
+          { text: 'Error Handling', link: '/guides/errors' }
         ]
       },
       {
@@ -50,23 +60,6 @@ export default defineConfig({
           { text: 'Payment Links', link: '/api/payment-links' },
           { text: 'Webhooks', link: '/api/webhooks' }
         ]
-      },
-      {
-        text: 'Merchant Guides',
-        items: [
-          { text: 'Getting Started', link: '/guides/getting-started' },
-          { text: 'Managing Products', link: '/guides/managing-products' },
-          { text: 'Payment Links', link: '/guides/payment-links' }
-        ]
-      },
-      {
-        text: 'Developer Integration',
-        items: [
-          { text: 'Accept Payments', link: '/guides/accept-payments' },
-          { text: 'QR Code Payments', link: '/guides/qr-payments' },
-          { text: 'Webhook Integration', link: '/guides/webhooks' },
-          { text: 'Error Handling', link: '/guides/errors' }
-        ]
       }
     ],
 
@@ -75,7 +68,7 @@ export default defineConfig({
     ],
 
     footer: {
-      message: 'Built for the Bahamas, powered by innovation',
+      message: 'Built for the Caribbean, powered by innovation',
       copyright: 'Copyright © 2026 Dberi'
     }
   }

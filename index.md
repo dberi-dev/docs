@@ -1,10 +1,10 @@
 # Introduction
 
-Dberi is a payment processing platform built for the Bahamas, enabling businesses to accept payments from customers through credit cards, debit cards, and mobile wallets.
+Dberi is a payment processing platform built for the Caribbean, enabling businesses to accept payments from customers through credit cards, debit cards, and mobile wallets.
 
 ## What is Dberi?
 
-Dberi provides payment infrastructure for Bahamian businesses - think of it like Stripe or Square, but built specifically for BSD transactions and the Bahamian market. When your customers check out on your website or app, they can pay using Dberi.
+Dberi provides payment infrastructure for Caribbean businesses - think of it like Stripe or Square, but built specifically for BSD transactions and the Caribbean market. When your customers check out on your website or app, they can pay using Dberi.
 
 ### For Businesses
 
@@ -35,9 +35,9 @@ The API returns a checkout URL where your customer completes payment securely.
 
 ## Key Features
 
-### Built for the Bahamas
+### Built for the Caribbean
 
-Native BSD support with local payment methods and instant settlement for Bahamian businesses.
+Native BSD support with local payment methods and instant settlement for Caribbean businesses.
 
 ### Accept All Payment Types
 
@@ -233,4 +233,4 @@ Need help integrating?
 - **Email**: support@dberi.com
 - **API Status**: status.dberi.com (coming soon)
 
-Start accepting payments today with Dberi - the payment platform built for the Bahamas.
+Start accepting payments today with Dberi - the payment platform built for the Caribbean.
