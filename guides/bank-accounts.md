@@ -216,5 +216,4 @@ Payouts typically arrive in **2-3 business days** via ACH.
 
 ## Need Help?
 
-- Check our [API Reference](/api/bank-accounts)
 - View [Webhooks Guide](/guides/webhooks) for payout notifications

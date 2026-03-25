@@ -328,6 +328,4 @@ Track stock across multiple locations:
 
 ## Need Help?
 
-- [Products API Reference](/api/products)
-- [Orders API Reference](/api/orders)
 - [Webhooks Guide](/guides/webhooks)
