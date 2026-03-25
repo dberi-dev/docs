@@ -113,24 +113,22 @@ const qr = await createPayment({
 
 ## Use Cases
 
-### Restaurant Table Payments
+### Restaurant Payments
 
 ```javascript
-// Generate QR for each table
-async function generateTableQR(tableNumber, billAmount) {
-  const qr = await createPayment({
+// Generate QR for a bill
+async function generateBillQR(billAmount, tableNumber) {
+  const payment = await createPayment({
     payment_mode: 'DYNAMIC_PAY',
     amount: billAmount,
-    description: `Table ${tableNumber} - Lunch`,
+    description: `Table ${tableNumber}`,
     metadata: {
-      table: tableNumber,
-      server: 'John',
-      items: ['burger', 'fries', 'drink']
+      table: tableNumber
     }
   })
 
-  // Display QR on bill
-  return qr.qr_payload
+  // Display QR code on the bill
+  return payment.qr_payload
 }
 ```
 
@@ -250,101 +248,56 @@ class POSTerminal {
 }
 ```
 
-### Restaurant Table System
+### Retail Store Checkout
 
 ```javascript
-// Table management with QR
-class TableManager {
-  async generateBill(tableNumber) {
-    const table = await this.getTable(tableNumber)
-    const total = this.calculateTotal(table.items)
-
-    // Create payment QR
-    const qr = await createPayment({
-      payment_mode: 'DYNAMIC_PAY',
-      amount: total,
-      description: `Table ${tableNumber}`,
-      metadata: {
-        table: tableNumber,
-        server: table.server,
-        items: table.items,
-        guests: table.guests
-      }
-    })
-
-    // Print bill with QR code
-    await this.printBill({
-      table: tableNumber,
-      items: table.items,
-      total,
-      qr_code: qr.qr_payload
-    })
-
-    // Monitor payment
-    this.monitorPayment(qr.id, tableNumber)
-  }
-
-  async monitorPayment(paymentId, tableNumber) {
-    const payment = await this.waitForPayment(paymentId)
-
-    if (payment.status === 'completed') {
-      // Clear table
-      await this.clearTable(tableNumber)
-
-      // Notify server
-      await this.notifyServer(tableNumber, 'Payment received')
-
-      // Print kitchen receipt if tip included
-      if (payment.metadata.tip) {
-        await this.notifyKitchen('Tip received')
-      }
+// In-store checkout with QR
+async function processCheckout(items, total) {
+  // Create payment for this transaction
+  const payment = await createPayment({
+    payment_mode: 'DYNAMIC_PAY',
+    amount: total,
+    description: `Purchase - ${items.length} items`,
+    metadata: {
+      items: items.map(i => i.name)
     }
+  })
+
+  // Display QR on register screen
+  displayQR(payment.qr_payload)
+
+  // Wait for customer to scan and pay
+  const result = await waitForPayment(payment.id)
+
+  if (result.status === 'completed') {
+    console.log('Payment successful!')
+    return { success: true }
   }
 }
 ```
 
-### Mobile Vendor Cart
+### Service Providers
 
 ```javascript
-// Food cart / mobile vendor
-class MobileVendor {
-  constructor() {
-    // Create permanent cart QR
-    this.setupStaticQR()
-  }
-
-  async setupStaticQR() {
-    const qr = await createPayment({
-      payment_mode: 'STATIC_PAY',
-      description: 'Island Food Cart'
-    })
-
-    // Print and laminate QR
-    // Display on cart
-    this.qrCode = qr.qr_payload
-  }
-
-  async recordSale(items) {
-    // Customer scans permanent QR
-    // Customer enters amount
-    // We monitor for incoming payments
-
-    // Record what was ordered
-    await this.savePendingSale(items)
-
-    console.log('Waiting for customer payment...')
-  }
-
-  // Listen for webhooks
-  async handlePaymentCompleted(payment) {
-    // Match payment to pending sale
-    const sale = await this.matchPaymentToSale(payment.amount)
-
-    if (sale) {
-      console.log(`Sale completed: ${sale.items}`)
-      await this.fulfillOrder(sale)
+// On-site service payment
+async function collectServicePayment(serviceName, amount) {
+  const payment = await createPayment({
+    payment_mode: 'DYNAMIC_PAY',
+    amount,
+    description: serviceName,
+    metadata: {
+      service_type: serviceName
     }
-  }
+  })
+
+  // Show QR code to customer
+  console.log('Show this QR code to customer:')
+  console.log(payment.qr_payload)
+
+  // Wait for payment
+  await waitForPayment(payment.id)
+
+  console.log('Payment received! Service complete.')
 }
 ```
 
